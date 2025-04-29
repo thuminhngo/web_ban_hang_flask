@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='products.css') }}">
+
+<section id="products_section">
+    <div id="sidebar">
+        <h3>Danh mục sản phẩm</h3>
+        <ul>
+            <li><a href="#" class="category-link">Đồ ăn cho chó</a></li>
+            <li><a href="#" class="category-link">Đồ ăn cho mèo</a></li>
+            <li><a href="#" class="category-link">Đồ chơi</a></li>
+        </ul>
+    </div>
+
+    <div class="product-grid">
+        {% for sp in danh_sach %}
+        <div class="product-card">
+            {% if sp.hinh_anh %}
+            <img src="{{ url_for('static', filename=sp.hinh_anh) }}" alt="{{ sp.ten_san_pham }}">
+        {% else %}
+            <img src="{{ url_for('static', filename='default.png') }}" alt="{{ sp.ten_san_pham }}">
+        {% endif %}
+          <h3>{{ sp.ten_san_pham }}</h3>
+          <p>Giá: {{ "{:,.0f}".format(sp.gia) }}đ</p>
+          <button>Thêm vào giỏ</button>
+        </div>
+        {% endfor %}
+    </div>
+      
+</section>

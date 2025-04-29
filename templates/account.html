@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang web sản phẩm và dịch vụ</title>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='acount.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='account.css') }}">
+
+<div id="accountInfo">
+    <h3>Thông Tin Tài Khoản</h3>
+    <form method="POST" action="{{ url_for('account.update_account') }}">
+        <p><strong>Tên Đăng Nhập:</strong><br>
+            <input type="text" name="ten_dang_nhap" value="{{ user.ten_dang_nhap }}" readonly>
+        </p>
+        <p><strong>Họ và Tên:</strong><br>
+            <input type="text" name="ho_ten" value="{{ user.ho_ten }}">
+        </p>
+        <p><strong>Email:</strong><br>
+            <input type="email" name="email" value="{{ user.email }}">
+        </p>
+        <p><strong>Số Điện Thoại:</strong><br>
+            <input type="text" name="so_dien_thoai" value="{{ user.so_dien_thoai }}">
+        </p>
+        <p><strong>Địa Chỉ:</strong><br>
+            <input type="text" name="dia_chi" value="{{ user.dia_chi }}">
+        </p>
+        <button type="submit">Lưu Thay Đổi</button>
+    </form>
+</div>

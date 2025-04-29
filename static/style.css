@@ -1,0 +1,281 @@
+@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Spartan', sans-serif;
+}
+
+html, body {
+    height: 100%;
+    margin: 0; 
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.footer-left {
+    flex: 1;
+}
+
+
+h1 {
+    font-size: 50px;
+    line-height: 64px;
+    color: #222;
+}
+
+h2 {
+    font-size: 32px;
+    color: #222;
+}   
+
+h6 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+p {
+    font-size: 12x;
+    color: #465B52;
+}
+
+.section-p1 {
+    padding: 4px 80px;
+}
+
+.button-normal {
+    background-color: #465B52;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14x;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none; 
+    transition: 0.2s;
+}
+
+body {
+   width: 100%;
+
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    background-color: #fef2dc;
+    justify-content: space-between;
+    color: #fff;
+    padding: 20p 80px;
+    text-align: center;
+    box-shadow: 0 5px 15px  rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    position:sticky;
+    top: 0;
+    left: 0;
+    height: 70px;
+}
+
+#header .Logo {
+    height: 100%;
+    max-height: 60px; 
+    width: auto; 
+    object-fit: contain;
+}
+
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#navbar li {
+    list-style: none;
+    padding: 0 20px;
+    position: relative;
+}
+
+#navbar li a {
+    text-decoration: none;
+    color: #ff6187;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+#navbar li a:hover ,
+#navbar li a.active {
+    background-color: #ff6187;
+    color: #465B52;
+}
+
+/* Định dạng chung cho Modal */
+/* Styles for the modal background */
+.modal {
+   
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    overflow: auto;
+    padding-top: 100px; 
+}
+
+/* Modal content box */
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto; 
+    padding: 20px;
+    border-radius: 10px; 
+    width: 50%; /* Width of the modal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    animation: modalAnim 0.3s ease-in-out; /* Fade-in animation */
+}
+
+/* Add animation for modal appearance */
+@keyframes modalAnim {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Style for the close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Styles for form labels and inputs */
+label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+input[type="email"], input[type="password"], input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+button[type="submit"] {
+    background-color: #b8b1b3; /* Green */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+    background-color: #ff6187; /* Darker green on hover */
+}
+
+/* Style for links in the modal */
+a {
+    color: #d01e2a;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+.footer-right ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-right ul li a:hover {
+    color: #f1c40f;
+}
+
+#products_content {
+    flex-grow: 1; /* Dành phần còn lại cho content */
+}
+
+
+.account-menu {
+    position: relative;
+    display: inline-block;
+}
+
+#accountDropdown {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    padding: 10px;
+    z-index: 1;
+    right: 0;
+}
+
+#accountDropdown p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+#accountDropdown a {
+    display: block;
+    color: red;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.account-menu:hover #accountDropdown {
+    display: block;
+}
+
