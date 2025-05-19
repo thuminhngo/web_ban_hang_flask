@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
+
+<section id="cart_section">
+    <h2>Giỏ hàng của bạn</h2>
+    {% if cart_items %}
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+                <th>Tổng</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.ten_san_pham }}</td>
+                <td>
+                    <div class="quantity-control">
+                        <button class="quantity-btn decrease" data-user-id="{{ item.ma_nguoi_dung }}" data-product-id="{{ item.ma_san_pham }}">-</button>
+                        <input type="number" class="quantity-input" data-product-id="{{ item.ma_san_pham }}" value="{{ item.so_luong }}" min="1" readonly>
+                        <button class="quantity-btn increase" data-user-id="{{ item.ma_nguoi_dung }}" data-product-id="{{ item.ma_san_pham }}">+</button>
+                    </div>
+                </td>
+                <td>{{ "{:,.0f}".format(item.product.gia) }}đ</td>
+                <td>{{ "{:,.0f}".format(item.product.gia * item.so_luong) }}đ</td>
+                <td><button class="delete-item" data-user-id="{{ item.ma_nguoi_dung }}" data-product-id="{{ item.ma_san_pham }}">Xóa</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><strong>Tổng cộng: {{ "{:,.0f}".format(total) }}đ</strong></p>
+    <button type="button" onclick="openCheckoutModal()">Thanh toán</button>
+    {% else %}
+    <p>Giỏ hàng của bạn đang trống.</p>
+    {% endif %}
+</section>
+
+<!-- Modal cho thông tin thanh toán -->
+<div id="checkoutModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeCheckoutModal()">×</span>
+        <h2>Thông tin giao hàng</h2>
+        <form id="checkoutForm" novalidate>
+            <label for="address">Địa chỉ nhận hàng:</label>
+            <input type="text" id="address" name="address" required>
+            <label for="phone">Số điện thoại:</label>
+            <input type="text" id="phone" name="phone" required>
+            <button type="submit">Xác nhận thanh toán</button>
+        </form>
+    </div>
+</div>
+

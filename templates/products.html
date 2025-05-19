@@ -11,18 +11,21 @@
     </div>
 
     <div class="product-grid">
-        {% for sp in danh_sach %}
-        <div class="product-card">
-            {% if sp.hinh_anh %}
-            <img src="{{ url_for('static', filename=sp.hinh_anh) }}" alt="{{ sp.ten_san_pham }}">
+        {% if danh_sach and danh_sach|length > 0 %}
+            {% for sp in danh_sach %}
+                <div class="product-card">
+                    {% if sp.hinh_anh %}
+                        <img src="{{ url_for('static', filename=sp.hinh_anh) }}" alt="{{ sp.ten_san_pham }}">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='default.png') }}" alt="{{ sp.ten_san_pham }}">
+                    {% endif %}
+                    <h3>{{ sp.ten_san_pham }}</h3>
+                    <p>Giá: {{ "{:,.0f}".format(sp.gia) }}đ</p>
+                    <button class="add-to-cart" data-product-id="{{ sp.ma_san_pham }}">Thêm vào giỏ</button>
+                </div>
+            {% endfor %}
         {% else %}
-            <img src="{{ url_for('static', filename='default.png') }}" alt="{{ sp.ten_san_pham }}">
+            <p>Không có sản phẩm nào để hiển thị.</p>
         {% endif %}
-          <h3>{{ sp.ten_san_pham }}</h3>
-          <p>Giá: {{ "{:,.0f}".format(sp.gia) }}đ</p>
-          <button>Thêm vào giỏ</button>
-        </div>
-        {% endfor %}
     </div>
-      
 </section>

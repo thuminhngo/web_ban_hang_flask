@@ -1,45 +1,54 @@
-from flask import Blueprint, jsonify, redirect, request, render_template, session, url_for
-from models import db, User
+from flask import Blueprint, jsonify, render_template, session, request
+from models import db, User, Order, OrderDetail, Product
 
 account_bp = Blueprint('account', __name__)
 
 @account_bp.route("/account", methods=["GET"])
 def account():
-    # Kiểm tra xem người dùng có đăng nhập không
-    if 'user_id' not in session:
-        return redirect(url_for('login.login'))  # Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+    if not session.get('user'):
+        return jsonify({"html": "<p>Bạn chưa đăng nhập.</p>"})
     
-    # Lấy thông tin người dùng từ cơ sở dữ liệu
-    user_id = session['user_id']
+    user_id = session['user'].get('id')
     user = User.query.get(user_id)
     
     if not user:
-        return jsonify({"message": "Người dùng không tồn tại"}), 404
+        return jsonify({"html": "<p>Không tìm thấy thông tin người dùng.</p>"})
     
+    # Lấy danh sách đơn hàng của người dùng
+    orders = Order.query.filter_by(ma_nguoi_dung=user_id).order_by(Order.ngay_dat_hang.desc()).all()
     
-    # Trả về trang HTML với thông tin người dùng
-    return render_template('account.html', user=user)
-
+    # Truyền user và orders vào template
+    return jsonify({"html": render_template("account.html", user=user, orders=orders)})
 
 @account_bp.route("/update_account", methods=["POST"])
 def update_account():
-    # Kiểm tra người dùng đã đăng nhập chưa
-    if 'user_id' not in session:
-        return redirect(url_for('login.login'))  # Nếu chưa đăng nhập thì chuyển tới trang đăng nhập
+    if not session.get('user'):
+        print("Lỗi: Người dùng chưa đăng nhập")
+        return jsonify({"success": False, "message": "Bạn chưa đăng nhập."}), 401
     
-    # Lấy thông tin người dùng từ session
-    user = User.query.get(session['user_id'])  # Lấy người dùng theo ID từ session
+    user_id = session['user'].get('id')
+    user = User.query.get(user_id)
+    
     if not user:
-        return "Người dùng không tồn tại", 404
-
-    # Cập nhật các thông tin người dùng từ form
-    user.ho_ten = request.form.get("ho_ten")
-    user.email = request.form.get("email")
-    user.so_dien_thoai = request.form.get("so_dien_thoai")
-    user.dia_chi = request.form.get("dia_chi")
+        print("Lỗi: Không tìm thấy người dùng với ID:", user_id)
+        return jsonify({"success": False, "message": "Không tìm thấy thông tin người dùng."}), 404
     
-    # Lưu thay đổi vào cơ sở dữ liệu
-    db.session.commit()
-
-    # Chuyển hướng về trang tài khoản và hiển thị thông báo thành công
-    return redirect(url_for('account.account', message="Cập nhật thành công!"))
+    try:
+        data = request.get_json()
+        print("Dữ liệu nhận được:", data)
+        
+        if not data:
+            print("Lỗi: Không nhận được dữ liệu JSON")
+            return jsonify({"success": False, "message": "Dữ liệu không hợp lệ."}), 400
+        
+        user.ho_ten = data.get('ho_ten', user.ho_ten)
+        user.email = data.get('email', user.email)
+        user.so_dien_thoai = data.get('so_dien_thoai', user.so_dien_thoai)
+        
+        db.session.commit()
+        print("Cập nhật thành công cho người dùng:", user_id)
+        return jsonify({"success": True, "message": "Cập nhật thông tin thành công!"})
+    except Exception as e:
+        db.session.rollback()
+        print("Lỗi khi cập nhật:", str(e))
+        return jsonify({"success": False, "message": f"Lỗi khi cập nhật: {str(e)}"}), 500

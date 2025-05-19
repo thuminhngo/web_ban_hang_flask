@@ -3,8 +3,6 @@
 from flask import Blueprint, request, jsonify
 from models import db
 from models.users import User
-from werkzeug.security import generate_password_hash
-
 signup_bp = Blueprint('signup', __name__)
 
 @signup_bp.route('/signup', methods=['POST'])

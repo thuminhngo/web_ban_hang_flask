@@ -1,0 +1,151 @@
+
+/* Wrapper for Sidebar and Content */
+.wrapper {
+    display: flex;
+    max-width: 1200px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background: #2c3e50;
+    padding: 20px 0;
+    color: #fff;
+}
+
+.menu {
+    list-style: none;
+}
+
+.menu li {
+    margin: 10px 0;
+}
+
+.menu a {
+    display: block;
+    padding: 15px 30px;
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background 0.3s, padding-left 0.3s;
+}
+
+.menu a:hover,
+.menu a.active {
+    background: #3498db;
+    padding-left: 40px;
+}
+
+.menu a[data-section] {
+    cursor: pointer;
+}
+
+/* Content Area */
+.content {
+    flex: 1;
+    padding: 30px;
+}
+
+.content h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #34495e;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.save-btn {
+    background: #3498db;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.save-btn:hover {
+    background: #2980b9;
+}
+
+/* Order Section Styles */
+.order-item {
+    background: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ececec;
+}
+
+.order-item h3 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.order-item p {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #34495e;
+}
+
+/* Table Styles */
+.order-details {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.order-details th,
+.order-details td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ececec;
+}
+
+.order-details th {
+    background: #3498db;
+    color: #fff;
+    font-weight: 600;
+}
+
+.order-details td {
+    background: #fff;
+}
+
+.order-details tr:last-child td {
+    border-bottom: none;
+}
+

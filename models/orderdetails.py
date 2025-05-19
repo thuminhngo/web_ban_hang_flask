@@ -7,3 +7,4 @@ class OrderDetail(db.Model):
     ma_san_pham = db.Column(db.Integer, db.ForeignKey("products.ma_san_pham"), nullable=False)
     so_luong = db.Column(db.Integer, nullable=False)
     gia = db.Column(db.Numeric(10, 2), nullable=False)
+    product = db.relationship("Product", backref="order_details", lazy=True)

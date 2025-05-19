@@ -1,9 +1,13 @@
 from flask import Blueprint, jsonify, redirect, request, render_template, session, url_for
-from models import db, Product
+from models import db, Product, Order
 
 admin_bp = Blueprint('admin_bp', __name__)
+
 @admin_bp.route('/admin', methods=["GET", "POST"])
 def admin():
+    # Lấy tham số tab từ query string, mặc định là 'products'
+    active_tab = request.args.get('tab', 'products')
+
     if request.method == "POST":
         # Lấy dữ liệu từ form
         ten = request.form["ten"]
@@ -25,18 +29,21 @@ def admin():
         db.session.add(sp_moi)
         db.session.commit()
 
-        # Chuyển hướng để tránh submit lại khi reload
-        return redirect("/admin")
+        # Chuyển hướng về tab sản phẩm
+        return redirect(url_for('admin_bp.admin', tab='products'))
 
-    # Truy vấn tất cả sản phẩm
+    # Truy vấn dữ liệu
     danh_sach = Product.query.all()
-    return render_template("admin.html", danh_sach=danh_sach)
+    danh_sach_don_hang = Order.query.order_by(Order.ngay_dat_hang.desc()).all()
+    return render_template("admin.html", danh_sach=danh_sach, danh_sach_don_hang=danh_sach_don_hang, active_tab=active_tab)
 
 @admin_bp.route("/sua_san_pham/<int:ma_sp>")
 def sua_san_pham(ma_sp):
     san_pham = Product.query.get_or_404(ma_sp)
+    active_tab = 'products'  # Khi sửa sản phẩm, luôn hiển thị tab sản phẩm
     danh_sach = Product.query.all()
-    return render_template("admin.html", danh_sach=danh_sach, san_pham=san_pham)
+    danh_sach_don_hang = Order.query.order_by(Order.ngay_dat_hang.desc()).all()
+    return render_template("admin.html", danh_sach=danh_sach, danh_sach_don_hang=danh_sach_don_hang, san_pham=san_pham, active_tab=active_tab)
 
 @admin_bp.route("/cap_nhat_san_pham/<int:ma_sp>", methods=["POST"])
 def cap_nhat_san_pham(ma_sp):
@@ -48,6 +55,12 @@ def cap_nhat_san_pham(ma_sp):
     sp.hinh_anh = request.form["hinh_anh"]
 
     db.session.commit()
-    return redirect("/admin")
+    return redirect(url_for('admin_bp.admin', tab='products'))
 
-
+@admin_bp.route("/xac_nhan_don_hang/<int:ma_don_hang>", methods=["POST"])
+def xac_nhan_don_hang(ma_don_hang):
+    order = Order.query.get_or_404(ma_don_hang)
+    if order.trang_thai == 'Chờ xử lý':
+        order.trang_thai = 'Đang giao'
+        db.session.commit()
+    return redirect(url_for('admin_bp.admin', tab='orders'))

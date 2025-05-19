@@ -24,56 +24,42 @@
             <ul id="navbar">
                 <li><a class="active" href="#">Trang chủ</a></li>
                 <li><a href="#" id="products">Sản phẩm</a></li>
-                <li><a href="#" id="service">Dịch vụ</a></li>
-                <li><a href="#">Giới thiệu</a></li>
-                <li><a href="#">Liên hệ</a></li>
+                
+                
                 {% if session.get('user') %}
-                <li class="account-menu">
-                    <a href="#" id="accountIcon"><i class="fa-solid fa-user"></i></a>
-                    <div id="accountDropdown" class="dropdown-content">
-                        <p><strong>{{ session['user']['name'] }}</strong></p>
-                        <p>{{ session['user']['email'] }}</p>
-                        <p>{{ session['user']['phone'] }}</p>
-                        <a href="/logout">Đăng xuất</a>
-                    </div>
-                </li>
-                {% else %}
-                <li><a href="#" id="openLogin">Đăng nhập</a></li>
-                {% endif %}
-
-                <li id="lg-bag"><a href="#"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                    <li class="account-menu">
+                        <a href="#" id="accountIcon"><i class="fa-solid fa-user"></i></a>
+                        <div id="accountDropdown" class="dropdown-content">
+                            <p ><strong >{{ session['user']['name'] }}</strong></p>
+                        </div>
+                    </li>
+                    <li id="lg-bag"><a href="#"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                    {% else %}
+                    <li><a href="#" id="openLogin">Đăng nhập</a></li>
+                    {% endif %}    
+                
             </ul>
         </div>
     </section>
 
     <!-- Div để chứa nội dung sản phẩm -->
     <div id="products_content"></div>
-
-    <!-- Div để chứa giỏ hàng -->
-<section id="cart_section" style="display: none;">
-    <h2>Giỏ hàng</h2>
-    <div id="cart_items"></div>
-    <div id="cart_total">
-        <p>Tổng cộng: <span id="total_price">0đ</span></p>
-        <button onclick="checkout()">Thanh toán</button>
-    </div>
-</section>
-    
-
-
-
+    <!-- Div để chứa nội dung tài khoản -->
+    <div id="account_content"></div>  
     <!-- Nhúng modal Đăng nhập / Đăng ký -->
     {% include 'signup.html' %}
-
-
+    
+<!-- Div để chứa giỏ hàng ngay dưới navbar -->
+<div id="cart_content" style="display: none;">
 
 
 
     <!-- JavaScript -->
-    <script src="{{ url_for('static', filename='login_signup.js') }}"></script>
-    <script src="{{ url_for('static', filename='products.js') }}"></script>
-    <script src="{{ url_for('static', filename='active.js') }}"></script>
-    <script src="{{ url_for('static', filename='service.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/login_signup.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/products.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/active.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/account.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
 
     <footer>
         <div class="footer-container">

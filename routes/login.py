@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, request, session, redirect, url_for
+from flask import Blueprint, jsonify, render_template, request, session, redirect, url_for, flash
 from models import db, User
 
 login_bp = Blueprint('login', __name__)
@@ -6,23 +6,31 @@ login_bp = Blueprint('login', __name__)
 @login_bp.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == 'POST':
-        email = request.json.get("email")
-        mat_khau = request.json.get("password")
+        email = request.form.get("email")
+        mat_khau = request.form.get("password")
 
-        # Kiểm tra thông tin đầu vào
         if not email or not mat_khau:
-            return jsonify({"message": "Thiếu thông tin bắt buộc"}), 400
+            flash("Vui lòng điền đầy đủ thông tin", "error")
+            return redirect(url_for("home", modal="login"))
 
-        # Tìm người dùng trong cơ sở dữ liệu
         user = User.query.filter_by(email=email).first()
-
-        # Kiểm tra mật khẩu
         if not user or user.mat_khau != mat_khau:
-            return jsonify({"message": "Sai email hoặc mật khẩu"}), 401
+            flash("Sai email hoặc mật khẩu", "error")
+            return redirect(url_for("home", modal="login"))
 
-        # Đăng nhập thành công - lưu thông tin người dùng vào session
-        session['user_id'] = user.ma_nguoi_dung  # Lưu ID người dùng vào session
+        session['user'] = {
+            "id": user.ma_nguoi_dung,
+            "name": user.ho_ten,
+            "email": user.email,
+            "phone": user.so_dien_thoai,
+        }
+        flash("Đăng nhập thành công", "success")
+        return redirect(url_for("home"))
 
-        return jsonify({"message": "Đăng nhập thành công"}), 200
+    return redirect(url_for("home", modal="login"))
 
-   
+@login_bp.route("/logout")
+def logout():
+    session.pop("user", None)
+    flash("Đăng xuất thành công", "success")
+    return redirect(url_for("home"))

@@ -1,134 +1,127 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Quản lý sản phẩm</title>
-  <style>
-    .container {
-      display: flex;
-      gap: 20px;
-      padding: 20px;
-      font-family: Arial, sans-serif;
-    }
-
-    .form-section {
-      flex: 4;
-      border: 1px solid #ccc;
-      padding: 20px;
-      border-radius: 10px;
-      background: #f9f9f9;
-    }
-
-    .list-section {
-      flex: 6;
-      border: 1px solid #ccc;
-      padding: 20px;
-      border-radius: 10px;
-      background: #ffffff;
-    }
-
-    h2 {
-      text-align: center;
-      color: #2c3e50;
-    }
-
-    input, textarea {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-    }
-
-    button {
-      padding: 10px 20px;
-      background-color: #3498db;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    table, th, td {
-      border: 1px solid #ddd;
-    }
-
-    th, td {
-      padding: 10px;
-      text-align: center;
-    }
-
-    th {
-      background-color: #f0f0f0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý cửa hàng</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .tabs { margin-bottom: 20px; }
+        .tabs a { margin-right: 10px; padding: 10px; text-decoration: none; color: #333; border: 1px solid #ccc; border-radius: 5px; }
+        .tabs a.active { background-color: #007bff; color: white; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        img { max-width: 100px; }
+        .form-container { margin-bottom: 20px; }
+        .form-container input, .form-container textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
+        .form-container button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .action-button { padding: 5px 10px; background-color: #28a745; color: white; text-decoration: none; border-radius: 3px; }
+        .action-button.cancel { background-color: #dc3545; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Phần 4/10: Thêm hoặc Sửa sản phẩm -->
-    <div class="form-section">
-      <h2>{{ '✏️ Sửa sản phẩm' if san_pham else '➕ Thêm sản phẩm' }}</h2>
-      <form method="POST" action="{{ url_for('admin_bp.cap_nhat_san_pham', ma_sp=san_pham.ma_san_pham) if san_pham else url_for('admin_bp.admin') }}">
-        <label>Tên:</label>
-        <input type="text" name="ten" value="{{ san_pham.ten_san_pham if san_pham else '' }}" required>
+    <h1>Quản lý cửa hàng</h1>
 
-        <label>Mô tả:</label>
-        <textarea name="mo_ta">{{ san_pham.mo_ta if san_pham else '' }}</textarea>
-
-        <label>Giá:</label>
-        <input type="number" step="0.01" name="gia" value="{{ san_pham.gia if san_pham else '' }}" required>
-
-        <label>Số lượng:</label>
-        <input type="number" name="so_luong" value="{{ san_pham.so_luong_ton if san_pham else '' }}" required>
-
-        <label>Hình ảnh:</label>
-        <input type="text" name="hinh_anh" value="{{ san_pham.hinh_anh if san_pham else '' }}" required>
-
-        <button type="submit">{{ 'Cập nhật' if san_pham else 'Thêm' }}</button>
-      </form>
+    <div class="tabs">
+        <a href="{{ url_for('admin_bp.admin', tab='products') }}" class="{% if active_tab == 'products' %}active{% endif %}">📋 Sản phẩm</a>
+        <a href="{{ url_for('admin_bp.admin', tab='orders') }}" class="{% if active_tab == 'orders' %}active{% endif %}">📦 Đơn hàng</a>
     </div>
 
-    <!-- Phần 6/10: Danh sách sản phẩm -->
-    <div class="list-section">
-      <h2>📋 Danh sách sản phẩm</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Mã</th>
-            <th>Tên</th>
-            <th>Giá</th>
-            <th>Số lượng</th>
-            <th>Mô tả</th>
-            <th>Hình ảnh</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for sp in danh_sach %}
-          <tr>
-            <td>
-              <a href="{{ url_for('admin_bp.sua_san_pham', ma_sp=sp.ma_san_pham) }}">
-                {{ sp.ma_san_pham }}
-              </a>
-            </td>
-            <td>{{ sp.ten_san_pham }}</td>
-            <td>{{ "{:,.0f}".format(sp.gia) }}</td>
-            <td>{{ sp.so_luong_ton }}</td>
-            <td>{{ sp.mo_ta }}</td>
-            <td>
-              {% if sp.hinh_anh %}
-                <img src="{{ url_for('static', filename=sp.hinh_anh) }}" alt="{{ sp.ten_san_pham }}" style="width: 50px; height: 50px;">
-              {% else %}
-                <img src="{{ url_for('static', filename='default.png') }}" alt="{{ sp.ten_san_pham }}" style="width: 50px; height: 50px;">
-              {% endif %}
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
+    {% if active_tab == 'products' %}
+        <h2>{{ '✏️ Sửa sản phẩm' if san_pham else '➕ Thêm sản phẩm' }}</h2>
+        <div class="form-container">
+            <form method="POST" action="{{ url_for('admin_bp.cap_nhat_san_pham', ma_sp=san_pham.ma_san_pham) if san_pham else url_for('admin_bp.admin') }}">
+                <label>Tên:</label>
+                <input type="text" name="ten" value="{{ san_pham.ten_san_pham if san_pham else '' }}" required>
+                
+                <label>Mô tả:</label>
+                <textarea name="mo_ta">{{ san_pham.mo_ta if san_pham else '' }}</textarea>
+                
+                <label>Giá:</label>
+                <input type="number" name="gia" step="0.01" value="{{ san_pham.gia if san_pham else '' }}" required>
+                
+                <label>Số lượng:</label>
+                <input type="number" name="so_luong" value="{{ san_pham.so_luong_ton if san_pham else '' }}" required>
+                
+                <label>Hình ảnh:</label>
+                <input type="text" name="hinh_anh" value="{{ san_pham.hinh_anh if san_pham else '' }}">
+                
+                <button type="submit">{{ 'Cập nhật' if san_pham else 'Thêm' }}</button>
+            </form>
+        </div>
+
+        <h2>📋 Danh sách sản phẩm</h2>
+        <table>
+            <tr>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Mô tả</th>
+                <th>Hình ảnh</th>
+                <th>Thao tác</th>
+            </tr>
+            {% for sp in danh_sach %}
+                <tr>
+                    <td>{{ sp.ma_san_pham }}</td>
+                    <td>{{ sp.ten_san_pham }}</td>
+                    <td>{{ "{:,.0f}".format(sp.gia) }}</td>
+                    <td>{{ sp.so_luong_ton }}</td>
+                    <td>{{ sp.mo_ta }}</td>
+                    <td>
+                        {% if sp.hinh_anh %}
+                            <img src="{{ sp.hinh_anh }}" alt="Hình ảnh sản phẩm">
+                        {% else %}
+                            Không có
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('admin_bp.sua_san_pham', ma_sp=sp.ma_san_pham) }}" class="action-button">Sửa</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    {% if active_tab == 'orders' %}
+        <h2>📦 Danh sách đơn hàng</h2>
+        <table>
+            <tr>
+                <th>Mã đơn hàng</th>
+                <th>Khách hàng</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Ngày đặt</th>
+                <th>Chi tiết</th>
+                <th>Thao tác</th>
+            </tr>
+            {% for order in danh_sach_don_hang %}
+                <tr>
+                    <td>{{ order.ma_don_hang }}</td>
+                    <td>{{ order.ma_nguoi_dung }}</td> <!-- Thay bằng tên khách hàng nếu có liên kết với bảng users -->
+                    <td>{{ order.dia_chi_nhan_hang }}</td>
+                    <td>{{ order.so_dien_thoai }}</td>
+                    <td>{{ "{:,.0f}".format(order.tong_tien) }}</td>
+                    <td>{{ order.trang_thai }}</td>
+                    <td>{{ order.ngay_dat_hang.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>
+                        {% for item in order.order_details %}
+                            {{ item.product.ten_san_pham }} - Số lượng: {{ item.so_luong }} - Giá: {{ "{:,.0f}".format(item.gia) }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if order.trang_thai == 'Chờ xử lý' %}
+                            <form method="POST" action="{{ url_for('admin_bp.xac_nhan_don_hang', ma_don_hang=order.ma_don_hang) }}" style="display:inline;">
+                                <button type="submit" class="action-button">Xác nhận</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 </body>
 </html>

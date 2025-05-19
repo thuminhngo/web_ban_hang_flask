@@ -1,252 +1,144 @@
-@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap);
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Spartan', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 html, body {
     height: 100%;
-    margin: 0; 
+    margin: 0;
 }
 
 body {
     display: flex;
     flex-direction: column;
+    background-color: #FAFAF9;
+    min-height: 100vh;
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
+    background-color: #1E293B;
+    color: #FAFAF9;
+    padding: 24px 0;
     font-size: 14px;
     text-align: center;
+    margin-top: auto; /* Đẩy footer xuống dưới cùng */
 }
 
 .footer-container {
     display: flex;
     justify-content: space-between;
-    padding: 0 30px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
 }
 
 .footer-left {
     flex: 1;
 }
 
-
 h1 {
-    font-size: 50px;
-    line-height: 64px;
-    color: #222;
+    font-size: 48px;
+    line-height: 60px;
+    color: #0F172A;
 }
 
 h2 {
     font-size: 32px;
-    color: #222;
-}   
+    color: #0F172A;
+}
 
 h6 {
     font-size: 16px;
     font-weight: 700;
+    color: #0F172A;
 }
 
 p {
-    font-size: 12x;
-    color: #465B52;
+    font-size: 14px;
+    color: #64748B;
 }
 
 .section-p1 {
-    padding: 4px 80px;
+    padding: 48px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .button-normal {
-    background-color: #465B52;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
+    background: linear-gradient(135deg, #6366F1, #4F46E5);
+    color: #FAFAF9;
+    padding: 12px 24px;
+    border-radius: 10px;
     text-decoration: none;
-    font-size: 14x;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    outline: none; 
-    transition: 0.2s;
+    border: none;
+    transition: transform 0.2s, opacity 0.2s;
 }
 
-body {
-   width: 100%;
-
+.button-normal:hover {
+    transform: scale(1.03);
+    opacity: 0.9;
 }
 
+/* Navbar */
 #header {
     display: flex;
     align-items: center;
-    background-color: #fef2dc;
     justify-content: space-between;
-    color: #fff;
-    padding: 20p 80px;
-    text-align: center;
-    box-shadow: 0 5px 15px  rgba(0, 0, 0, 0.6);
+    background-color: #1E293B;
+    color: #FAFAF9;
+    padding: 16px 80px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     z-index: 999;
-    position:sticky;
+    position: sticky; /* Hoặc fixed nếu muốn cố định hoàn toàn */
     top: 0;
     left: 0;
-    height: 70px;
+    height: 72px;
 }
 
 #header .Logo {
     height: 100%;
-    max-height: 60px; 
-    width: auto; 
+    max-height: 56px;
+    width: auto;
     object-fit: contain;
 }
 
 #navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 100%;
+    gap: 16px;
+    z-index: 1000;
 }
 
 #navbar li {
     list-style: none;
-    padding: 0 20px;
-    position: relative;
+    padding: 0 16px;
 }
 
 #navbar li a {
     text-decoration: none;
-    color: #ff6187;
-    font-size: 16px;
-    font-weight: 700;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: 0.3s ease;
+    color: #FAFAF9;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: background-color 0.2s, color 0.2s;
 }
 
-#navbar li a:hover ,
+#navbar li a:hover,
 #navbar li a.active {
-    background-color: #ff6187;
-    color: #465B52;
+    background-color: #6366F1;
+    color: #FAFAF9;
 }
 
-/* Định dạng chung cho Modal */
-/* Styles for the modal background */
-.modal {
-   
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
-    overflow: auto;
-    padding-top: 100px; 
-}
-
-/* Modal content box */
-.modal-content {
-    background-color: #fff;
-    margin: 5% auto; 
-    padding: 20px;
-    border-radius: 10px; 
-    width: 50%; /* Width of the modal */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
-    animation: modalAnim 0.3s ease-in-out; /* Fade-in animation */
-}
-
-/* Add animation for modal appearance */
-@keyframes modalAnim {
-    0% {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Style for the close button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Styles for form labels and inputs */
-label {
-    font-size: 16px;
-    margin-bottom: 8px;
-    display: block;
-}
-
-input[type="email"], input[type="password"], input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 16px;
-}
-
-button[type="submit"] {
-    background-color: #b8b1b3; /* Green */
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-    margin-top: 10px;
-}
-
-button[type="submit"]:hover {
-    background-color: #ff6187; /* Darker green on hover */
-}
-
-/* Style for links in the modal */
-a {
-    color: #d01e2a;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-
-
-
-.footer-right ul li a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-right ul li a:hover {
-    color: #f1c40f;
-}
-
-#products_content {
-    flex-grow: 1; /* Dành phần còn lại cho content */
-}
-
-
+/* Account Dropdown */
 .account-menu {
     position: relative;
     display: inline-block;
@@ -255,27 +147,144 @@ a:hover {
 #accountDropdown {
     display: none;
     position: absolute;
-    background-color: white;
-    min-width: 180px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    padding: 10px;
+    background-color: #FAFAF9;
+    min-width: 200px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 16px;
     z-index: 1;
     right: 0;
+    border-radius: 10px;
 }
 
 #accountDropdown p {
-    margin: 5px 0;
+    margin: 8px 0;
     font-size: 14px;
+    color: #0F172A;
 }
 
 #accountDropdown a {
     display: block;
-    color: red;
+    color: #F43F5E;
     text-decoration: none;
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
 .account-menu:hover #accountDropdown {
     display: block;
 }
 
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow: auto;
+    padding-top: 80px;
+}
+
+.modal-content {
+    background-color: #FAFAF9;
+    margin: 5% auto;
+    padding: 32px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 640px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    animation: modalAnim 0.3s ease-out;
+}
+
+@keyframes modalAnim {
+    0% { opacity: 0; transform: translateY(-30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.close {
+    color: #64748B;
+    float: right;
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #0F172A;
+}
+
+label {
+    font-size: 15px;
+    margin-bottom: 8px;
+    display: block;
+    color: #0F172A;
+}
+
+input[type="email"], input[type="password"], input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus {
+    border-color: #6366F1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    outline: none;
+}
+
+button[type="submit"] {
+    background: linear-gradient(135deg, #6366F1, #4F46E5);
+    color: #FAFAF9;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    width: 100%;
+    margin-top: 16px;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+button[type="submit"]:hover {
+    transform: scale(1.03);
+    opacity: 0.9;
+}
+
+a {
+    color: #F43F5E;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    color: #E11D48;
+    text-decoration: underline;
+}
+
+.footer-right ul li a {
+    color: #FAFAF9;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-right ul li a:hover {
+    color: #F472B6;
+}
+
+/* Xử lý iframe ẩn từ Cloudflare */
+iframe[style*="visibility: hidden"] {
+    display: none !important; /* Ẩn iframe để tránh ảnh hưởng bố cục */
+}
+
+/* Điều chỉnh padding-top cho các section */
+#account_section, #cart_section, #products_section {
+    padding-top: 80px; /* Đảm bảo nội dung không bị navbar che */
+    min-height: calc(100vh - 72px - 48px); /* Điều chỉnh dựa trên navbar và footer */
+}

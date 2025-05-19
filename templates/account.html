@@ -1,32 +1,75 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang web sản phẩm và dịch vụ</title>
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='acount.css') }}">
-
 <link rel="stylesheet" href="{{ url_for('static', filename='account.css') }}">
+<section id="account_section">
+    <div class="wrapper">
+        <div class="sidebar">
+            <ul class="menu">
+                <li><a href="#" class="menu-item" data-section="profile">Thông Tin Tài Khoản</a></li>
+                <li><a href="#" class="menu-item" data-section="orders">Đơn Mua</a></li>
+                <li><a href="/logout">Đăng xuất</a></li>
+            </ul>
+        </div>
 
-<div id="accountInfo">
-    <h3>Thông Tin Tài Khoản</h3>
-    <form method="POST" action="{{ url_for('account.update_account') }}">
-        <p><strong>Tên Đăng Nhập:</strong><br>
-            <input type="text" name="ten_dang_nhap" value="{{ user.ten_dang_nhap }}" readonly>
-        </p>
-        <p><strong>Họ và Tên:</strong><br>
-            <input type="text" name="ho_ten" value="{{ user.ho_ten }}">
-        </p>
-        <p><strong>Email:</strong><br>
-            <input type="email" name="email" value="{{ user.email }}">
-        </p>
-        <p><strong>Số Điện Thoại:</strong><br>
-            <input type="text" name="so_dien_thoai" value="{{ user.so_dien_thoai }}">
-        </p>
-        <p><strong>Địa Chỉ:</strong><br>
-            <input type="text" name="dia_chi" value="{{ user.dia_chi }}">
-        </p>
-        <button type="submit">Lưu Thay Đổi</button>
-    </form>
-</div>
+        <div class="content" id="profile-content">
+            <h1>Hồ Sơ Của Tôi</h1>
+            <form>
+                <div class="form-group">
+                    <label for="fullname">Tên</label>
+                    <input type="text" id="fullname" value="{{ user.ho_ten if user else '' }}">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" value="{{ user.email if user else '' }}">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="text" id="phone" value="{{ user.so_dien_thoai if user else '' }}">
+                </div>
+                <div class="form-group">
+                    <label for="address">Địa chỉ</label>
+                    <input type="text" id="address" value="{{ user.dia_chi if user else '' }}">
+                </div>
+                <button type="submit" class="save-btn">Lưu</button>
+            </form>
+        </div>
+
+    
+
+        <div class="content" id="orders-content" style="display: none;">
+            <h1>Đơn Mua</h1>
+            {% if orders %}
+                {% for order in orders %}
+                    <div class="order-item">
+                        <h3>Đơn hàng #{{ order.ma_don_hang }}</h3>
+                        <p><strong>Ngày đặt hàng:</strong> {{ order.ngay_dat_hang.strftime('%d/%m/%Y %H:%M') }}</p>
+                        <p><strong>Trạng thái:</strong> {{ order.trang_thai }}</p>
+                        <p><strong>Địa chỉ nhận hàng:</strong> {{ order.dia_chi_nhan_hang }}</p>
+                        <p><strong>Số điện thoại:</strong> {{ order.so_dien_thoai }}</p>
+                        <table class="order-details">
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Số lượng</th>
+                                    <th>Giá</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.order_details %}
+                                    <tr>
+                                        <td>{{ item.product.ten_san_pham }}</td>
+                                        <td>{{ item.so_luong }}</td>
+                                        <td>{{ "{:,.0f}".format(item.gia) }} VNĐ</td>
+                                        <td>{{ "{:,.0f}".format(item.so_luong * item.gia) }} VNĐ</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <p><strong>Tổng tiền:</strong> {{ "{:,.0f}".format(order.tong_tien) }} VNĐ</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Bạn chưa có đơn hàng nào.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
